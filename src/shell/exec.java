@@ -5,6 +5,7 @@
 package shell;
 
 import java.lang.reflect.*;
+import java.io.*;
 
 public class exec
 {   
@@ -30,6 +31,10 @@ public class exec
             jgrep(argumentOne);
         }
         
+        else if (command.equals("ls")) {
+            ls(shell.io.getCurrentDir());
+        }
+        
         else if (command.equals("quit")) {
             quit();
         }
@@ -46,7 +51,23 @@ public class exec
             System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
         }
     }
-
+    
+    public static void changePassword (String user) {
+        System.out.print("Enter new password: ");
+        String p1 = main.keyboardOne.nextLine();
+        System.out.print("Confirm new password: ");
+        String p2 = main.keyboardOne.nextLine();
+        if (p1.equals(p2)) {
+            if (user.isEmpty()) {
+                shell.user.setPassword(shell.user.getUsername(), p1);
+            }        
+            else {
+                shell.user.setPassword(user, p1);
+            }
+        }
+        else {System.out.println("Passwords did not match, password not changed.");
+        }
+    }
     //[Workaround] Replace with proper solution
     public static void clear () {
         for (int i=0; i<25; ++i) System.out.println();
@@ -85,21 +106,12 @@ public class exec
         }
 
     }    
-    
-    public static void changePassword (String user) {
-        System.out.print("Enter new password: ");
-        String p1 = main.keyboardOne.nextLine();
-        System.out.print("Confirm new password: ");
-        String p2 = main.keyboardOne.nextLine();
-        if (p1.equals(p2)) {
-            if (user.isEmpty()) {
-                shell.user.setPassword(shell.user.getUsername(), p1);
-            }        
-            else {
-                shell.user.setPassword(user, p1);
-            }
-        }
-        else {System.out.println("Passwords did not match, password not changed.");
+
+    public static void ls (File dir) {
+    File[] fileList = dir.listFiles();
+    for (int i = 0;i < fileList.length; i++) {
+        File file = fileList[i];
+        System.out.println(file);
         }
     }
     

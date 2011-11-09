@@ -3,10 +3,10 @@
  * and open the template in the editor.
  */
 package shell;
+import java.io.*;
 
 public class jshell
 {
-    private static String currentDir = "~";
     private static String command = "";
     private static String argumentOne = "";
     //private static String argumentTwo = "";
@@ -23,7 +23,7 @@ public class jshell
     }
 
     private static String getPromptPrefix() {
-        String prompt = (user.getUsername() + ":" + " " + currentDir + " ");
+        String prompt = (user.getUsername() + ":" + " " + shell.io.getCurrentDir() + " ");
         return prompt;
     }
 }
