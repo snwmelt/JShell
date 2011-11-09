@@ -136,12 +136,22 @@ public class exec
 
     public static void ls (File dir, String argumentOne) {      
         File[] fileList = dir.listFiles();
-        for (int i = 0;i < fileList.length; i++) {
-            File file = fileList[i];
-            System.out.println(file);
+        if (argumentOne.isEmpty()) {
+            for (int i = 0;i < fileList.length; i++) {
+                File file = fileList[i];
+                System.out.println(io.stripFileParent(file));
             }
-        
-    }
+        }
+        else if (argumentOne.equals("-A")) {
+            for (int i = 0;i < fileList.length; i++) {
+                File file = fileList[i];
+                    System.out.println(file);
+            }
+        }
+        else {
+            System.out.println("Unknown Paramater '" + argumentOne + "'");
+        }
+}
     
     public static void quit () {
         System.out.println("Goodbye!");
