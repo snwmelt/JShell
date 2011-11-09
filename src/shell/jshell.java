@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 package shell;
-import java.io.*;
 
 public class jshell
 {
     private static String command = "";
     private static String argumentOne = "";
+    private static String argumentTwo = "";
     //private static String argumentTwo = "";
     
     public static void main () {
@@ -18,7 +18,7 @@ public class jshell
             String a1 = main.keyboardOne.nextLine();
             argumentOne = a1.trim();
             //argumentTwo = main.keyboardOne.nextLine();
-            exec.main(command, argumentOne/*, argumentTwo*/);
+            exec.main(command, argumentOne, argumentTwo);
         }
     }
 

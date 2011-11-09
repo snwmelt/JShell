@@ -9,10 +9,10 @@ import java.io.*;
 
 public class exec
 {   
-    public static void main (String command, String argumentOne/*, String argumentTwo*/) {
+    public static void main (String command, String argumentOne, String argumentTwo) {
         
         if (command.equals("cd")) {
-            io.setCurrentDir(argumentOne);
+            cd(argumentOne);
         }
         else if (command.equals("changePassword")) {
             changePassword(argumentOne);
@@ -37,11 +37,11 @@ public class exec
         else if (command.equals("ls")) {
             if (argumentOne.isEmpty()) {
                 File dir = shell.io.getCurrentDir();
-                ls(dir);
+                ls(dir, argumentOne);
             }
             else {
-                File dir = shell.io.getNewDir(argumentOne);
-                ls(dir);
+                File dir = shell.io.getNewDir(argumentOne,argumentTwo);
+                ls(dir,argumentOne);
             }    
         }
         
@@ -59,6 +59,18 @@ public class exec
         
         else {
             System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
+        }
+    }
+    
+    public static void cd (String newDir) {
+        if (newDir.startsWith("C:")) {
+            io.setCurrentDir(newDir);
+        }
+        else if (newDir.startsWith("..")) {
+            io.setCurrentDir(io.getCurrentDir().getParent());
+        }
+        else if (newDir.startsWith("./")) {
+            io.setCurrentDir(io.getNewDir(newDir,"relative").toString());
         }
     }
     
@@ -118,12 +130,20 @@ public class exec
 
     }    
 
-    public static void ls (File dir) {
-    File[] fileList = dir.listFiles();
-    for (int i = 0;i < fileList.length; i++) {
-        File file = fileList[i];
-        System.out.println(file);
-        }
+    public static void ls (File dir, String argumentOne) {
+        File[] fileList = null;
+        
+        if (argumentOne.startsWith("C:")) {
+            fileList = dir.listFiles();
+            }
+        /*else {
+            String relativeFileList = dir.listFiles().toString(io.getCurrentDir());
+        }*/
+        for (int i = 0;i < fileList.length; i++) {
+            File file = fileList[i];
+            System.out.println(file);
+            }
+        
     }
     
     public static void quit () {
