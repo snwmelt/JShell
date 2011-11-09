@@ -61,6 +61,10 @@ public class exec
             sysinfo();
         }
         
+        else if (command.equals("sysExec")) {
+            sysExec(argumentOne,argumentTwo);
+        }
+        
         else {
             System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
         }
@@ -180,5 +184,21 @@ public class exec
         System.out.println("Operating System: " + OSUtils.getOS());
         System.out.println("Architecture: " + OSUtils.getArch());
         System.out.println("Java Version: " + System.getProperty("java.version"));
+    }
+    
+    public static void sysExec (String command, String arg) {
+        ProcessBuilder pb = new ProcessBuilder(command, arg);
+        /*Map<String, String> env = pb.environment();
+        env.put("VAR1", "myValue");
+        env.remove("OTHERVAR");
+        env.put("VAR2", env.get("VAR1") + "suffix");*/
+        pb.directory(shell.io.getCurrentDir());
+        try {
+            Process p = pb.start();
+        }
+        catch (IOException IOE) {
+            System.out.println("Failed to launch process (IOE)");
+        }
+        
     }
 }
