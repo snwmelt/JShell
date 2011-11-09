@@ -10,7 +10,7 @@ import java.io.*;
 public class exec
 {   
     public static void main (String command, String argumentOne/*, String argumentTwo*/) {
-       
+        
         if (command.equals("changePassword")) {
             changePassword(argumentOne);
         }
@@ -32,7 +32,14 @@ public class exec
         }
         
         else if (command.equals("ls")) {
-            ls(shell.io.getCurrentDir());
+            if (argumentOne.isEmpty()) {
+                File dir = shell.io.getCurrentDir();
+                ls(dir);
+            }
+            else {
+                File dir = shell.io.getNewDir(argumentOne);
+                ls(dir);
+            }    
         }
         
         else if (command.equals("quit")) {
@@ -68,6 +75,7 @@ public class exec
         else {System.out.println("Passwords did not match, password not changed.");
         }
     }
+    
     //[Workaround] Replace with proper solution
     public static void clear () {
         for (int i=0; i<25; ++i) System.out.println();
