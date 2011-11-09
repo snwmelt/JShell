@@ -32,13 +32,20 @@ public class exec
             quit();
         }
         
+        else if (command.equals("sysinfo")) {
+            System.out.println("Operating System: " + OSUtils.getOS());
+            System.out.println("Architecture: " + OSUtils.getArch());
+            System.out.println("Java Version: " + System.getProperty("java.version"));
+        }
+        
         else {
             System.out.println("Unknown command, please try again. For a full list of commands please type 'cmdList'.");
         }
     }
 
+    //[Workaround] Replace with proper solution
     public static void clear () {
-        System.out.print(ESC + "2J"); System.out.flush();
+        for (int i=0; i<25; ++i) System.out.println();
     }
     
     public static void cmdList () {
@@ -56,19 +63,26 @@ public class exec
         System.out.println();
     }
 
+    //[FixMe] Really needs fixing
     public static void jgrep (String args) {
         String grep[] = args.split(" ");
-        if (grep[0].matches(grep[1])) {
-            System.out.println("The value does match the expresion.");
+        try {
+            if (grep[0].matches(grep[1])) {
+                System.out.println("The value does match the expresion.");
+            }
+
+            else {System.out.println("The given value does not match the supplied expression.");
+            }
         }
-     
-        else {System.out.println("The given value does not match the supplied expression.");
+        
+        catch (java.lang.RuntimeException jlRE) {
+            System.out.print("Error: " + jlRE);
         }
 
     }    
     
     public static void quit () {
-        System.out.println("\nGoodbye!");
+        System.out.println("Goodbye!");
         System.exit(0);
     }
 }
