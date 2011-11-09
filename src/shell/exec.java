@@ -130,15 +130,8 @@ public class exec
 
     }    
 
-    public static void ls (File dir, String argumentOne) {
-        File[] fileList = null;
-        
-        if (argumentOne.startsWith("C:")) {
-            fileList = dir.listFiles();
-            }
-        /*else {
-            String relativeFileList = dir.listFiles().toString(io.getCurrentDir());
-        }*/
+    public static void ls (File dir, String argumentOne) {      
+        File[] fileList = dir.listFiles();
         for (int i = 0;i < fileList.length; i++) {
             File file = fileList[i];
             System.out.println(file);
