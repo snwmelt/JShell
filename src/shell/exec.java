@@ -10,7 +10,11 @@ public class exec
 {   
     public static void main (String command, String argumentOne/*, String argumentTwo*/) {
        
-        if (command.equals("clear")) {
+        if (command.equals("changePassword")) {
+            changePassword(argumentOne);
+        }
+
+        else if (command.equals("clear")) {
             clear();
         }
         
@@ -81,6 +85,23 @@ public class exec
         }
 
     }    
+    
+    public static void changePassword (String user) {
+        System.out.print("Enter new password: ");
+        String p1 = main.keyboardOne.nextLine();
+        System.out.print("Confirm new password: ");
+        String p2 = main.keyboardOne.nextLine();
+        if (p1.equals(p2)) {
+            if (user.isEmpty()) {
+                shell.user.setPassword(shell.user.getUsername(), p1);
+            }        
+            else {
+                shell.user.setPassword(user, p1);
+            }
+        }
+        else {System.out.println("Passwords did not match, password not changed.");
+        }
+    }
     
     public static void quit () {
         System.out.println("Goodbye!");

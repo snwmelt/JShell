@@ -50,16 +50,17 @@ public class user
         return username;
     }    
 
-    public static void setRootPassword () {
-        System.out.print("Enter new password: ");
-        String p1 = main.keyboardOne.nextLine();
-        System.out.print("Confirm new password: ");
-        String p2 = main.keyboardOne.nextLine();
-        if (p1.equals(p2)) {
-            rootPassword = p1;        
+    public static void setPassword (String user, String password) {
+        if (user.equals("root")) {
+            rootPassword = password;
         }
-    
-        else {System.out.println("Passwords did not match, password not changed.");
+        
+        else if (user.equals("dan")) {
+            danPassword = password;
+        }
+        
+        else {
+            System.out.println("Unknown User");
         }
     
     }
