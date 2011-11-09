@@ -7,9 +7,7 @@ package shell;
 import java.lang.reflect.*;
 
 public class exec
-{
-    final static String ESC = "\033[";
-    
+{   
     public static void main (String command, String argumentOne/*, String argumentTwo*/) {
        
         if (command.equals("clear")) {
@@ -32,14 +30,16 @@ public class exec
             quit();
         }
         
+        else if (command.equals("su")) {
+            su(argumentOne);
+        }
+        
         else if (command.equals("sysinfo")) {
-            System.out.println("Operating System: " + OSUtils.getOS());
-            System.out.println("Architecture: " + OSUtils.getArch());
-            System.out.println("Java Version: " + System.getProperty("java.version"));
+            sysinfo();
         }
         
         else {
-            System.out.println("Unknown command, please try again. For a full list of commands please type 'cmdList'.");
+            System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
         }
     }
 
@@ -50,7 +50,8 @@ public class exec
     
     public static void cmdList () {
             Method list[] = exec.class.getDeclaredMethods();
-            for (int i = 0; i < list.length; i++) {
+            //i is set to 1 to avoid printing the inital array value as we do not want to include the main class in the output.
+            for (int i = 1; i < list.length; i++) {
                 String unparsedList = (list[i].toString());
                 String prefixParsedList = unparsedList.replace("public static void shell.exec.", "");
                 String parsedList[] = prefixParsedList.split("\\(");
@@ -84,5 +85,21 @@ public class exec
     public static void quit () {
         System.out.println("Goodbye!");
         System.exit(0);
+    }
+    
+    public static void su (String user) {
+        
+        if (user.isEmpty()) {
+            shell.user.main("root");
+        }
+        
+        else {
+            shell.user.main(user);
+        }
+    }
+    public static void sysinfo () {
+        System.out.println("Operating System: " + OSUtils.getOS());
+        System.out.println("Architecture: " + OSUtils.getArch());
+        System.out.println("Java Version: " + System.getProperty("java.version"));
     }
 }
