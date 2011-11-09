@@ -11,7 +11,10 @@ public class exec
 {   
     public static void main (String command, String argumentOne/*, String argumentTwo*/) {
         
-        if (command.equals("changePassword")) {
+        if (command.equals("cd")) {
+            io.setCurrentDir(argumentOne);
+        }
+        else if (command.equals("changePassword")) {
             changePassword(argumentOne);
         }
 
