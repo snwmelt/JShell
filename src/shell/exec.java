@@ -49,6 +49,15 @@ public class exec
             quit();
         }
         
+        else if (command.equals("read")) {
+            try {
+                io.printFile(argumentOne);
+            }
+            catch (IOException IOE) {
+                
+            }
+        }
+        
         else if (command.equals("su")) {
             su(argumentOne);
         }
@@ -143,7 +152,7 @@ public class exec
         System.out.println("Goodbye!");
         System.exit(0);
     }
-    
+        
     public static void su (String user) {
         
         if (user.isEmpty()) {
