@@ -50,12 +50,7 @@ public class exec
         }
         
         else if (command.equals("read")) {
-            try {
-                io.printFile(argumentOne);
-            }
-            catch (IOException IOE) {
-                
-            }
+            read(argumentOne);
         }
         
         else if (command.equals("su")) {
@@ -72,7 +67,7 @@ public class exec
     }
     
     public static void cd (String newDir) {
-        if (newDir.startsWith("C:")) {
+        if (newDir.contains(":")) {
             io.setCurrentDir(newDir);
         }
         else if (newDir.startsWith("..")) {
@@ -102,7 +97,7 @@ public class exec
     
     //[Workaround] Replace with proper solution
     public static void clear () {
-        for (int i=0; i<25; ++i) System.out.println();
+        for (int i=0; i<70; ++i) System.out.println();
     }
     
     public static void cmdList () {
@@ -152,7 +147,15 @@ public class exec
         System.out.println("Goodbye!");
         System.exit(0);
     }
+    
+    public static void read (String argumentOne) {
+        try {io.printFile(argumentOne);
+            }
         
+        catch (IOException IOE) {
+            System.out.println("I/O Error");
+            }
+    }
     public static void su (String user) {
         
         if (user.isEmpty()) {
