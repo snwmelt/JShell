@@ -9,7 +9,7 @@ import java.io.*;
 
 public class exec
 {   
-    public static void main (String command, String argumentOne, String argumentTwo) {
+    public static void main (String command, String argumentOne, String argumentTwo, String arugmentThree) {
         
         if (command.equals("cd")) {
             cd(argumentOne);
@@ -187,12 +187,20 @@ public class exec
     }
     
     public static void sysExec (String command, String arg) {
+        if (command.startsWith(".")) {
+            command = command.replace("./", shell.io.getCurrentDir().toString());
+        }
+
         ProcessBuilder pb = new ProcessBuilder(command, arg);
+
         /*Map<String, String> env = pb.environment();
         env.put("VAR1", "myValue");
         env.remove("OTHERVAR");
         env.put("VAR2", env.get("VAR1") + "suffix");*/
         pb.directory(shell.io.getCurrentDir());
+
+
+        
         try {
             Process p = pb.start();
         }
