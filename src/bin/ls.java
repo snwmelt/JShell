@@ -40,44 +40,20 @@ public class ls {
                 if (hasParameter == true) {
                      if (argumentOne.equals("-A")) {
                          System.out.println("[Debug exec] hasParemeter = true");
-                         try {
                              System.out.println(file);
-                         }
-                        catch (NullPointerException NPE) {
-                            System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
-                            System.out.println(NPE);
-                         }
                      }
                     else {
                         System.out.println("Argument not recognised.");
                     }
                 }
                 else if (shell.io.isPathRelative(argumentTwo)) {
-                    try {
                         System.out.println("." + shell.io.stripFileParent(file));
-                    }
-                    catch (NullPointerException NPE) {
-                        System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
-                        System.out.println(NPE);
-                    }
                 }
                 else if (shell.OSUtils.getRootName(file).equals(file.toString())) {
-                    try {
                         System.out.println(shell.OSUtils.getRootName(file));
-                    }
-                    catch (NullPointerException NPE) {
-                        System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
-                        System.out.println(NPE);
-                    }                
                 }
                 else {
-                    try {
                         System.out.println(shell.io.stripFileParent(file));
-                    }
-                    catch (NullPointerException NPE) {
-                        System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
-                        System.out.println(NPE);
-                    }                
                 }
             }
     }    

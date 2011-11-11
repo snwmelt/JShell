@@ -14,14 +14,8 @@ public class sysExec {
 
         ProcessBuilder pb = new ProcessBuilder(command, arg);
 
-        /*Map<String, String> env = pb.environment();
-        env.put("VAR1", "myValue");
-        env.remove("OTHERVAR");
-        env.put("VAR2", env.get("VAR1") + "suffix");*/
         pb.directory(shell.io.getCurrentDir());
-
-
-        
+       
         try {
             Process p = pb.start();
         }
