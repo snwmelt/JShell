@@ -15,16 +15,23 @@ public class jshell
     public static void main () {
         while (!(command.equals("logout"))) {
             System.out.print(getPromptPrefix());
-            command = main.keyboardOne.next();
-            String a1 = main.keyboardOne.nextLine();
-            argumentOne = a1.trim();
-            //argumentTwo = main.keyboardOne.nextLine();
-            exec.main(command, argumentOne, argumentTwo, argumentThree);
+            String commandAndArguments = main.keyboardOne.nextLine();
+            
+            String[] caArray = {"","","","",""};
+            String[] caTempArray = commandAndArguments.split(" ");
+            for (int t = 0;t<caTempArray.length;t++) {
+                caArray[t] = caTempArray[t];
+            }
+        
+
+          //System.out.println("[Debug JShell] Command: " + caArray[0]);
+          //System.out.println("[Debug JShell] Arg1: " + caArray[1]);
+          exec.main(caArray[0], caArray[1], caArray[2], caArray[3], caArray[4]);
         }
     }
 
     private static String getPromptPrefix() {
-        String prompt = (user.getUsername() + ":" + " " + shell.io.getCurrentDir() + " ");
+        String prompt = (user.getUsername() + ":" + " " + shell.io.getCurrentDir() + "  - ");
         return prompt;
     }
 }

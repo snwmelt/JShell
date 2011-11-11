@@ -6,6 +6,7 @@ package shell;
 
 public class user
 {
+    private static String authFile = System.getProperty("user.dir") + OSUtils.getFileSeparator() + ".jshell" + OSUtils.getFileSeparator() + "auth.cfg" ;
     private static String username = "";
     private static String password = "";
     private static String rootPassword = "password";
@@ -48,7 +49,20 @@ public class user
 
     public static String getUsername () {
         return username;
-    }    
+    }
+    
+ /*   public static String getPassword (String user) {
+        String authArray[] = null;
+        int i = 0;
+        try {
+            //authArray[i] = io.readFile(authFile);
+            System.out.println(authArray);
+        }
+        catch (java.io.IOException IOE) {
+            System.out.println("Error failed to read password file '" + authFile);
+        }
+        return authArray[];
+    }*/
 
     public static void setPassword (String user, String password) {
         if (user.equals("root")) {

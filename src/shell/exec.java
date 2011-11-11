@@ -9,8 +9,8 @@ import java.io.*;
 
 public class exec
 {   
-    public static void main (String command, String argumentOne, String argumentTwo, String arugmentThree) {
-        
+    public static void main (String command, String argumentOne, String argumentTwo, String argumentThree, String argumentFour) {
+        //System.out.println("[Debug exec] exec() called");
         if (command.equals("cd")) {
             cd(argumentOne);
         }
@@ -35,14 +35,15 @@ public class exec
         }
         
         else if (command.equals("ls")) {
-            if (argumentOne.isEmpty()) {
-                File dir = shell.io.getCurrentDir();
-                ls(dir, argumentOne);
-            }
-            else {
-                File dir = shell.io.getNewDir(argumentOne,argumentTwo);
-                ls(dir,argumentOne);
-            }    
+                try {
+                    ls (argumentOne, argumentTwo);
+                }
+                catch (IOException IOE) {
+                    System.out.println("Could not list  directory contents. Do you have permission to view it?");
+                }
+                catch (NullPointerException NPE) {
+                    System.out.println("Null Pointer Exception. Are you sure that directory exists?");
+                }
         }
         
         else if (command.equals("quit")) {
@@ -57,8 +58,8 @@ public class exec
             su(argumentOne);
         }
         
-        else if (command.equals("sysinfo")) {
-            sysinfo();
+        else if (command.equals("sysInfo")) {
+            sysInfo();
         }
         
         else if (command.equals("sysExec")) {
@@ -69,16 +70,16 @@ public class exec
             System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
         }
     }
-    
+    //[Code] Pathing
     public static void cd (String newDir) {
-        if (newDir.contains(":")) {
+        if (io.isPathRelative(newDir) == false) {
             io.setCurrentDir(newDir);
         }
         else if (newDir.startsWith("..")) {
             io.setCurrentDir(io.getCurrentDir().getParent());
         }
         else if (newDir.startsWith("./")) {
-            io.setCurrentDir(io.getNewDir(newDir,"relative").toString());
+            io.setCurrentDir(io.getNewDir(newDir).toString());
         }
     }
     
@@ -99,7 +100,7 @@ public class exec
         }
     }
     
-    //[Workaround] Replace with proper solution
+    //[Code] Replace with proper solution
     public static void clear () {
         for (int i=0; i<70; ++i) System.out.println();
     }
@@ -138,22 +139,79 @@ public class exec
 
     }    
 
-    public static void ls (File dir, String argumentOne) {      
-        File[] fileList = dir.listFiles();
+    public static void ls (String argumentOne, String argumentTwo) throws IOException, NullPointerException {
+       //System.out.println("[Debug exec] Starting ls");
+        File dir = null;
+        Boolean hasParameter = true;
         if (argumentOne.isEmpty()) {
-            for (int i = 0;i < fileList.length; i++) {
-                File file = fileList[i];
-                System.out.println(io.stripFileParent(file));
-            }
+            argumentTwo = ".";
+            hasParameter = false;
         }
-        else if (argumentOne.equals("-A")) {
-            for (int i = 0;i < fileList.length; i++) {
-                File file = fileList[i];
-                    System.out.println(file);
-            }
+        
+        else if (argumentTwo.isEmpty()) {
+            argumentTwo = argumentOne;
+            hasParameter = false;
+            //System.out.println("[Debug exec] Argument One is empty so Argument Two = Argument One");
+            //System.out.println("[Debug exec] Has parameter = false");
         }
+        
+        if (io.isPathRelative(argumentTwo) == true) {
+                        dir = shell.io.getCurrentDir();
+        }
+
+     else if (io.isPathRelative(argumentTwo) == false) {
+          dir = shell.io.getNewDir(argumentTwo);
+      }
+        
         else {
-            System.out.println("Unknown Paramater '" + argumentOne + "'");
+            System.out.print("[Debug exec] None of these conditions were met");
+        }
+
+        File[] fileList = dir.listFiles();
+        for (int i = 0;i < fileList.length; i++) {
+            File file = fileList[i];
+            if (hasParameter == true) {
+                 if (argumentOne.equals("-A")) {
+                     System.out.println("[Debug exec] hasParemeter = true");
+                     try {
+                         System.out.println(file);
+                     }
+                    catch (NullPointerException NPE) {
+                        System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
+                        System.out.println(NPE);
+                     }
+                 }
+                else {
+                    System.out.println("Argument not recognised.");
+                }
+            }
+            else if (io.isPathRelative(argumentTwo)) {
+                try {
+                    System.out.println("." + io.stripFileParent(file));
+                }
+                catch (NullPointerException NPE) {
+                    System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
+                    System.out.println(NPE);
+                }
+            }
+            else if (OSUtils.getRootName(file).equals(file.toString())) {
+                try {
+                    System.out.println(OSUtils.getRootName(file));
+                }
+                catch (NullPointerException NPE) {
+                    System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
+                    System.out.println(NPE);
+                }                
+            }
+            else {
+                try {
+                    System.out.println(io.stripFileParent(file));
+                }
+                catch (NullPointerException NPE) {
+                    System.out.println("Null Pointer Exception. Something has gone terribly wrong here: ");
+                    System.out.println(NPE);
+                }                
+            }
         }
 }
     
@@ -180,7 +238,7 @@ public class exec
             shell.user.main(user);
         }
     }
-    public static void sysinfo () {
+    public static void sysInfo () {
         System.out.println("Operating System: " + OSUtils.getOS());
         System.out.println("Architecture: " + OSUtils.getArch());
         System.out.println("Java Version: " + System.getProperty("java.version"));
@@ -189,6 +247,7 @@ public class exec
     public static void sysExec (String command, String arg) {
         if (command.startsWith(".")) {
             command = command.replace("./", shell.io.getCurrentDir().toString());
+            System.out.println("[Debug exec] command: " + command);
         }
 
         ProcessBuilder pb = new ProcessBuilder(command, arg);
