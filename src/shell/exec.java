@@ -13,9 +13,9 @@ public class exec
         if (command.equals("cd")) {
             bin.cd.main(argumentOne);
         }
-        else if (command.equals("changePassword")) {
+/*        else if (command.equals("changePassword")) {
             bin.changePassword.main(argumentOne);
-        }
+        } */
 
         else if (command.equals("clear")) {
             bin.clear.main();

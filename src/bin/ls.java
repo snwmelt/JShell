@@ -22,12 +22,12 @@ public class ls {
                 //System.out.println("[Debug exec] Has parameter = false");
             }
 
-            if (shell.io.isPathRelative(argumentTwo) == true) {
-                            dir = shell.io.getCurrentDir();
+            if (io.path.isPathRelative(argumentTwo) == true) {
+                            dir = io.path.getCurrentPath();
             }
 
-         else if (shell.io.isPathRelative(argumentTwo) == false) {
-              dir = shell.io.getNewDir(argumentTwo);
+         else if (io.path.isPathRelative(argumentTwo) == false) {
+              dir = io.path.getNewPath(argumentTwo);
           }
 
             else {
@@ -46,14 +46,14 @@ public class ls {
                         System.out.println("Argument not recognised.");
                     }
                 }
-                else if (shell.io.isPathRelative(argumentTwo)) {
-                        System.out.println("." + shell.io.stripFileParent(file));
+                else if (io.path.isPathRelative(argumentTwo)) {
+                        System.out.println("." + io.path.stripFileParent(file));
                 }
                 else if (shell.OSUtils.getRootName(file).equals(file.toString())) {
                         System.out.println(shell.OSUtils.getRootName(file));
                 }
                 else {
-                        System.out.println(shell.io.stripFileParent(file));
+                        System.out.println(io.path.stripFileParent(file));
                 }
             }
     }    

@@ -5,7 +5,7 @@
 package bin;
 
 public class changePassword {
-    public static void main (String user) {
+/*    public static void main (String user) {
         System.out.print("Enter new password: ");
         String p1 = shell.main.keyboardOne.nextLine();
         System.out.print("Confirm new password: ");
@@ -20,5 +20,5 @@ public class changePassword {
         }
         else {System.out.println("Passwords did not match, password not changed.");
         }
-    }    
+    } */    
 }

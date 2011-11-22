@@ -31,7 +31,7 @@ public class jshell
     }
 
     private static String getPromptPrefix() {
-        String prompt = (user.getUsername() + ":" + " " + shell.io.getCurrentDir() + "  - ");
+        String prompt = (user.getUsername() + ":" + " " + io.path.getCurrentPath() + "  - ");
         return prompt;
     }
 }

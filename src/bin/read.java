@@ -7,7 +7,7 @@ import java.io.*;
 
 public class read {
     public static void main (String argumentOne) {
-        try {shell.io.printFile(argumentOne);
+        try {io.file.printFile(argumentOne);
             }
         
         catch (IOException IOE) {

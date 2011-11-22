@@ -7,20 +7,20 @@ package bin;
 public class cd {
     //[Code] Pathing
     public static void main (String newDir) {
-        if (shell.io.isPathRelative(newDir) == false) {
-            shell.io.setCurrentDir(newDir);
+        if (io.path.isPathRelative(newDir) == false) {
+            io.path.setCurrentPath(newDir);
         }
         
         else if (newDir.startsWith("..")) {
-                shell.io.setCurrentDir(shell.io.getCurrentDir().getParent());
+                io.path.setCurrentPath(io.path.getCurrentPath().getParent());
         }
         
         else if (newDir.startsWith("./")) {
-                shell.io.setCurrentDir(shell.io.getNewDir(newDir).toString());
+                io.path.setCurrentPath(io.path.getNewPath(newDir).toString());
         }
         
         else {
-                shell.io.setCurrentDir(shell.io.getNewDir(newDir).toString());
+                io.path.setCurrentPath(io.path.getNewPath(newDir).toString());
         }
     }    
 }

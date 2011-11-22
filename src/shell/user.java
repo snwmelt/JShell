@@ -3,15 +3,14 @@
  * and open the template in the editor.
  */
 package shell;
+import java.io.*;
 
 public class user
 {
-    private static String authFile = System.getProperty("user.dir") + OSUtils.getFileSeparator() + ".jshell" + OSUtils.getFileSeparator() + "auth.cfg" ;
+//    private static String authFile = System.getProperty("user.home") + OSUtils.getFileSeparator() + ".jshell" + OSUtils.getFileSeparator() + "auth.cfg";
+    private static String authFile = System.getProperty("user.dir") + OSUtils.getFileSeparator() + "auth.cfg";
     private static String username = "";
     private static String password = "";
-    private static String rootPassword = "password";
-    private static String danPassword = "cake";
-    //private static String currentUser = "";
 
     public static void main (String user) {
         resetUserVars();
@@ -19,8 +18,10 @@ public class user
     }
     
     public static void login (String user) {
+//    System.out.println("[Debug] Auth File: " + authFile);        
         int countDown = 3;
-        while (!((username.equals("root") && password.equals(rootPassword)) || (username.equals("dan") && password.equals(danPassword)))) {
+        try {
+            while (!(checkPassword(username) == true )) {
             if (countDown < 3 && countDown > 0) {
                 System.out.println("Your username or password was incorrect, please try again.");
             }
@@ -42,29 +43,43 @@ public class user
             System.out.print("Password: ");
             password = main.keyboardOne.nextLine();
             countDown--;
+            }
         }
+        catch (IOException IOE) {
+            System.out.println("Failed to check username, does the auth file exist?");
+        }        
+        catch (NullPointerException NPE) {
+            System.out.println("Failed to check username (NPE).");
+        }
+        catch (ArrayIndexOutOfBoundsException AIooBE) {
+            System.out.println("[Debug] Array index out of bounds");
+        }        
+
         shell.jshell.main();
-        
-    }    
+    }
 
     public static String getUsername () {
         return username;
     }
     
- /*   public static String getPassword (String user) {
-        String authArray[] = null;
-        int i = 0;
-        try {
-            //authArray[i] = io.readFile(authFile);
-            System.out.println(authArray);
-        }
-        catch (java.io.IOException IOE) {
-            System.out.println("Error failed to read password file '" + authFile);
-        }
-        return authArray[];
-    }*/
+    public static Boolean checkPassword (String user) throws IOException {
+        boolean valid = false;
+        String authArray[] = io.file.readFile(authFile);
+//        System.out.println(authArray[1]);
+        for (int c=0;c!=authArray.length;c++) {
+            String[] checkThis = (authArray[c]).split(":");
+//            System.out.println("[Debug] checkThis[0]:" + checkThis[0]);
+//            System.out.println("[Debug] checkThis[1]:" + checkThis[1]);
 
-    public static void setPassword (String user, String password) {
+            if (checkThis[0].equals(username) && checkThis[1].equals(password)) {
+                valid = true;
+            }
+        }
+        
+        return valid;
+    }
+
+/*    public static void setPassword (String user, String password) {
         if (user.equals("root")) {
             rootPassword = password;
         }
@@ -77,7 +92,7 @@ public class user
             System.out.println("Unknown User");
         }
     
-    }
+    } */
     
     public static void resetUserVars () {
         username = "";

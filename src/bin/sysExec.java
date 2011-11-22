@@ -8,13 +8,13 @@ import java.io.*;
 public class sysExec {
     public static void main (String command, String arg) {
         if (command.startsWith(".")) {
-            command = command.replace("./", shell.io.getCurrentDir().toString());
+            command = command.replace("./", io.path.getCurrentPath().toString());
             System.out.println("[Debug exec] command: " + command);
         }
 
         ProcessBuilder pb = new ProcessBuilder(command, arg);
 
-        pb.directory(shell.io.getCurrentDir());
+        pb.directory(io.path.getCurrentPath());
        
         try {
             Process p = pb.start();
