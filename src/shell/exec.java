@@ -66,7 +66,10 @@ public class exec
         }
         
         else {
-            System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
+            bin.sysExec.main(command,argumentOne);
         }
-    } 
+        //else {
+        //    System.out.println("Unknown command, please try again. For a full list of commands try 'cmdList'.");
+        //}
+    }
 }

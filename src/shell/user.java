@@ -22,28 +22,29 @@ public class user
         int countDown = 3;
         try {
             while (!(checkPassword(username) == true )) {
-            if (countDown < 3 && countDown > 0) {
-                System.out.println("Your username or password was incorrect, please try again.");
-            }
-            
-            else if (countDown == 0) {
-                System.out.println("Login attempt limit reached.");
-                main("login");
-            }
-
-            if (user.equals("login")) {
-                    System.out.print("Username: ");
-                    username = main.keyboardOne.nextLine();
+                //System.out.println("countDown: " + countDown);
+                if (countDown < 3 && countDown > 0) {
+                    System.out.println("Your username or password was incorrect, please try again.");
                 }
 
-            else {
-                    username = user;
-            }
-          
-            System.out.print("Password: ");
-            password = main.keyboardOne.nextLine();
-            countDown--;
-            }
+                else if (countDown == 0) {
+                    System.out.println("Login attempt limit reached.");
+                    main("login");
+                }
+
+                if (user.equals("login")) {
+                        System.out.print("Username: ");
+                        username = main.keyboardOne.nextLine();
+                    }
+
+                else {
+                        username = user;
+                }
+
+                System.out.print("Password: ");
+                password = main.keyboardOne.nextLine();
+                countDown--;
+                }
         }
         catch (IOException IOE) {
             System.out.println("Failed to check username, does the auth file exist?");
@@ -64,8 +65,10 @@ public class user
     
     public static Boolean checkPassword (String user) throws IOException {
         boolean valid = false;
+        //System.out.println("[DEBUG] user::checkPassword::Reading Password Array.");
         String authArray[] = io.file.readFile(authFile);
-//        System.out.println(authArray[1]);
+        //System.out.println("[DEBUG] user::checkPassword::Success.");
+        //        System.out.println(authArray[1]);
         for (int c=0;c!=authArray.length;c++) {
             String[] checkThis = (authArray[c]).split(":");
 //            System.out.println("[Debug] checkThis[0]:" + checkThis[0]);
